@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Countdown Timer</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 50px;
+        }
+
+        #timer {
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+
+        input {
+            padding: 10px;
+            font-size: 16px;
+            margin-right: 10px;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<div>
+    <label for="hours">Hours:</label>
+    <input type="number" id="hours" placeholder="0" min="0" step="1">
+
+    <label for="minutes">Minutes:</label>
+    <input type="number" id="minutes" placeholder="0" min="0" step="1">
+
+    <label for="seconds">Seconds:</label>
+    <input type="number" id="seconds" placeholder="0" min="0" step="1">
+
+    <button onclick="startTimer()">Start</button>
+</div>
+
+<div id="timer">00:00:00</div>
+
+<script>
+    let timerInterval;
+
+    function startTimer() {
+        const hoursInput = document.getElementById('hours');
+        const minutesInput = document.getElementById('minutes');
+        const secondsInput = document.getElementById('seconds');
+
+        const hours = parseInt(hoursInput.value, 10) || 0;
+        const minutes = parseInt(minutesInput.value, 10) || 0;
+        const seconds = parseInt(secondsInput.value, 10) || 0;
+
+        const totalSeconds = hours * 3600 + minutes * 60 + seconds;
+
+        if (totalSeconds <= 0) {
+            alert('Please enter a valid time duration.');
+            return;
+        }
+
+        let remainingSeconds = totalSeconds;
+
+        timerInterval = setInterval(function () {
+            const displayHours = Math.floor(remainingSeconds / 3600);
+            const displayMinutes = Math.floor((remainingSeconds % 3600) / 60);
+            const displaySeconds = remainingSeconds % 60;
+
+            document.getElementById('timer').innerText = `${String(displayHours).padStart(2, '0')}:${String(displayMinutes).padStart(2, '0')}:${String(displaySeconds).padStart(2, '0')}`;
+
+            if (remainingSeconds === 0) {
+                clearInterval(timerInterval);
+                alert('Time\'s up!');
+            }
+
+            remainingSeconds--;
+        }, 1000);
+    }
+</script>
+
+</body>
+</html>
